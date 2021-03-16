@@ -1,0 +1,11 @@
+<form method="post">
+    {% csrf_token %}
+    <input placeholder="Title" name="title">
+    <input placeholder="Slug" name="slug">
+    <textarea name="detail"></textarea>
+    <select name='status'>
+        <option value="draft">Draft</option>
+        <option value="published">Published</option>
+    </select>
+    <input type="submit">
+</form>

@@ -1,0 +1,13 @@
+{% for parent in parents %}
+    {{ parent }} <a href="{% url 'comment:create' parent_id=parent.id parent='comment' %}">Reply</a>
+    {% if comment.comment_set %}<a href="{% url 'comment:replies' comment.id %}">View replies</a>{% endif %}
+    <a href="{% url 'comment:delete' pk=parent.pk %}">Delete</a>
+    <br>
+{% endfor %}<br>
+
+All replies<br>
+{% for subreply in reply.comment_set.all %}
+    {{ subreply }}<a href="{% url 'comment:create' parent_id=subreply.id parent='comment' %}">Reply</a>
+    {% if subreply.comment_set.all %}<a href="{% url 'comment:replies' subreply.id %}">View replies</a>{% endif %}
+    <a href="{% url 'comment:delete' pk=subreply.pk %}">Delete</a><br>
+{% endfor %}

@@ -1,0 +1,10 @@
+<form method="post">
+    {% csrf_token %}
+    <input placeholder="Title" name="title" value="{{ post.title }}">
+    <textarea name="detail">{{ post.detail }}</textarea>
+    <select name='status'>
+        <option value="draft">Draft</option>
+        <option value="published" {% if post.status == 'published' %}selected{% endif %}>Published</option>
+    </select>
+    <input type="submit">
+</form>
