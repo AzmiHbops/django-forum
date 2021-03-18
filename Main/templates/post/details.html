@@ -3,7 +3,7 @@
 
 
 {% block title %}
-  Vida | {{ post.title|truncatechars:15 }}
+  iShout | {{ post.title|truncatechars:15 }}
 {% endblock %}
 
 
@@ -24,8 +24,8 @@
         <div style="display:flex; justify-content:space-between;">
           <span>Updated: {{ post.updated }}</span>
           <span>
-            <a href="{% url 'post:edit' pk=post.pk slug=post.slug %}">Edit post</a>
-            <a href="{% url 'post:delete' pk=post.pk slug=post.slug %}">Delete post</a>
+            <a href="{% url 'post:edit' pk=post.pk slug=post.slug %}">Edit shout</a>
+            <a href="{% url 'post:delete' pk=post.pk slug=post.slug %}" style="margin-left:10px;">Delete shout</a>
           </span>
         </div>
         
@@ -64,8 +64,9 @@
                 </div>
                 <p>{{ comment.body }}</p>
                 <p>
-                  {% if comment.comment_set.all %}<a href="{% url 'comment:replies' comment.id %}" style="margin-right:15px;">View replies</a>{% endif %}
+                  {% if comment.comment_set.all %}{{ comment.comment_set.count }} repl{{ comment.comment_set.count|pluralize:"y,ies" }} <a href="{% url 'comment:replies' comment.id %}" style="margin-right:15px;">View replies</a>{% endif %}
                   <a href="{% url 'comment:create' parent_id=comment.id parent='comment' %}?next={{ request.get_full_path }}" style="margin-right:7px;">Reply</a>
+                  <a href="{% url 'comment:edit' pk=comment.pk %}?next={{ request.get_full_path }}" style="margin-right:7px;">Edit</a>
                   <a href="{% url 'comment:delete' pk=comment.pk %}?next={{ request.get_full_path }}">Delete</a>
                 </p>
               </div>

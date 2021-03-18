@@ -28,7 +28,7 @@
 <body>
  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
    <div class="container">
-     <a class="navbar-brand" href="{% url 'post:home' %}"><span>Vida</span></a>
+     <a class="navbar-brand" href="{% url 'post:home' %}"><span>iShout</span></a>
      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
        <span class="oi oi-men"></span>menu
    </button>
@@ -38,7 +38,7 @@
          <li class="nav-item"><a href="{% url 'post:home' %}" class="nav-link">Home</a></li>
          <li class="nav-item"><a href="contact.html" class="nav-link">Sign in</a></li>
          <li class="nav-item"><a href="contact.html" class="nav-link">Sign up</a></li>
-         <li class="nav-item"><a href="{% url 'post:create' %}" class="nav-link">Shout out</a></li>
+         <li class="nav-item"><a href="{% url 'post:create' %}" style="color:#4986fc; font-weight:bold;" class="nav-link">Shout out!</a></li>
      </ul>
  </div>
 </div>
@@ -151,7 +151,7 @@
       <div style="padding-bottom: 20px;"></div>
       <h2 class="ftco-heading-2" style="font-weight:bold; text-align:center;">Quick links</h2>
       <ul class="list-unstyled" style="display:flex; justify-content:center;">
-        <li style="display:inline; margin-right:25px; font-weight:bold;"><a href="#recent" class="">Recent</a></li>
+        <li style="display:inline; margin-right:25px; font-weight:bold;"><a href="{% url 'post:home' %}#recent" class="">Recent</a></li>
         <li style="display:inline; margin-right:25px; font-weight:bold;"><a href="#advertise" class="">Advertise With Us</a></li>
         <li style="display:inline; margin-right:25px; font-weight:bold;"><a href="#" class="">Privacy Policy</a></li>
     </ul>

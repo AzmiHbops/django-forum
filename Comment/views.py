@@ -39,8 +39,8 @@ def replies(request, pk):
     return render(request, "comment/replies.html", context)
 
 
-#def delete
-#Should only show if user is an admin
+
+
 def delete(request, pk):
     comment = get_object_or_404(Comment, id=pk)
     next = request.GET["next"]
@@ -50,6 +50,22 @@ def delete(request, pk):
         return redirect(next)
         
     return render(request, "post/delete.html", context)
+
+
+
+#def edit
+def edit(request, pk):
+    comment = get_object_or_404(Comment, id=pk)
+    next = request.GET["next"]
+    context = {'comment':comment}
+    if request.method == "POST":
+        body = request.POST.get("body")
+        if body:
+            comment.body = body
+            comment.save()
+            return redirect(next)
+        
+    return render(request, "comment/edit.html", context)
 
 
 

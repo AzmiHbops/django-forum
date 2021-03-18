@@ -1,12 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}
+  iShout | Delete
+{% endblock %}
+
+
 {% block content %}
-
-DELETE?
-<form method="post">
-    {% csrf_token %}
-    <input type="submit" value="Delete">
-</form>
-
+<section class="hero-wrap" style="height: 65px; background-image: url({% static 'images/background.jpg' %}); margin-bottom:60px;">
+</section>
+<section class="container" style="display:flex; justify-content:center; box-shadow:0px 0px 5px black; width:280px;">
+    <div>
+        <h3 style="font-weight:bold; margin-bottom:40px; font-family:monospace">ARE YOU SURE?</h3>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group" style="display:flex; justify-content:space-between;">
+                <input type="submit" style="margin-right:10px;" value="DELETE" class="btn py-3 px-4 btn-danger">
+                <a style="margin-left:10px;" href="{{ post.get_absolute_url }}" class="btn py-3 px-4 btn-success">EXIT</a>
+            </div>
+        </form>
+    </div>
+</section>
 {% endblock %}

@@ -1,19 +1,43 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}
+  iShout | Shout out!!
+{% endblock %}
+
+
+
 {% block content %}
+    <section class="hero-wrap" style="height: 65px; background-image: url({% static 'images/background.jpg' %});">
+    </section>
+    <section class="container">
 
-<form method="post">
-    {% csrf_token %}
-    <input placeholder="Title" name="title">
-    <input placeholder="Slug" name="slug">
-    <textarea name="detail"></textarea>
-    <select name='status'>
-        <option value="draft">Draft</option>
-        <option value="published">Published</option>
-    </select>
-    <input type="submit">
-</form>
+        <div class="comment-form-wrap pt-5">
+            <h3 class="mb-5" style="font-size: 20px; font-weight: bold;">Now its time to be heard!!</h3>
+            <form class="p-5 bg-light" method="post">
+                {% csrf_token %}
+              <div class="form-group">
+                <label for="title">Title *</label>
+                <input type="text" required class="form-control" name="title" id="title">
+              </div>
 
+              <div class="form-group">
+                <label for="status">Status</label>
+                <select class="form-control" id="status" name="status">
+                    <option value="draft">Not done? Save your shout in your profile till youre ready</option>
+                    <option value="published">Shout out loud!!</option>
+                </select>
+              </div>
 
+              <div class="form-group">
+                <label for="detail">Please tell us more :) *</label>
+                <textarea required name="detail" id="detail" cols="30" rows="10" class="form-control"></textarea>
+              </div>
+              <div class="form-group">
+                <input type="submit" value="Shout out!" class="btn py-3 px-4 btn-primary">
+              </div>
+
+            </form>
+          </div>
+    </section>
 {% endblock %}
