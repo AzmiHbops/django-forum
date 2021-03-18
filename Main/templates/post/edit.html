@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
 <form method="post">
     {% csrf_token %}
     <input placeholder="Title" name="title" value="{{ post.title }}">
@@ -8,3 +12,5 @@
     </select>
     <input type="submit">
 </form>
+
+{% endblock %}

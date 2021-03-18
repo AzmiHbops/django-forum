@@ -7,19 +7,17 @@ from .models import Comment
 def create(request, parent, parent_id):
     next = request.GET["next"]
     if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
         body = request.POST.get('body')
 
         #Validating name and body
         #Checking if its a comment on a post itself or a reply to comment via the parent argument passed
-        if name and body:
+        if body:
             if parent == "post":
                 parent = Post.objects.get(id=parent_id)
-                Comment.objects.create(name=name, email=email, post=parent, body=body)
+                Comment.objects.create(author=request.user, post=parent, body=body)
             else:
                 parent = Comment.objects.get(id=parent_id)
-                Comment.objects.create(name=name, email=email, parent=parent, body=body)
+                Comment.objects.create(author=request.user, parent=parent, body=body)
             return redirect(next)
     return render(request, "comment/create.html")
 

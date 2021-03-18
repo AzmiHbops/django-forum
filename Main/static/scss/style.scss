@@ -1855,7 +1855,7 @@ textarea.form-control {
 		clear: both;
 		list-style: none;
 		.vcard {
-			width: 80px;
+			width: 20px;
 			float: left;
 			img {
 				width: 50px;
@@ -1863,7 +1863,6 @@ textarea.form-control {
 			}
 		}
 		.comment-body {
-			float: right;
 			width: calc(100% - 80px);
 			h3 {
 				font-size: 16px;

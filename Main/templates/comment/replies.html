@@ -1,9 +1,75 @@
-{% for parent in parents %}
-    {{ parent }} <a href="{% url 'comment:create' parent_id=parent.id parent='comment' %}">Reply</a>
-    {% if comment.comment_set %}<a href="{% url 'comment:replies' comment.id %}">View replies</a>{% endif %}
-    <a href="{% url 'comment:delete' pk=parent.pk %}">Delete</a>
-    <br>
-{% endfor %}<br>
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} Vida | Replies {% endblock %}
+
+
+{% block content %}
+    <section class="hero-wrap" style="height: 65px; background-image: url({% static 'images/background.jpg' %});">
+    </section>
+    
+    <section class="ftco-section ftco-no-pt ftco-no-pb">
+        <div class="container">
+            <h3 class="mb-5" style="font-size: 20px; font-weight: bold; padding-top:40px;">{{ reply.comment_set.count }} repl{{ reply.comment_set.count|pluralize:'y,ies' }}</h3>
+            
+            <ul class="comment-list">
+                {% for parent in parents %}
+                
+                <div class="comment" style="width: calc(100% - 80px);">
+                    <h3 style="font-size: 16px; font-weight: 600; text-transform: capitalize;">
+                    {% if not parent.author %}
+                        Anonymous
+                    {% else %}
+                        {{ parent.author }}
+                    {% endif %}
+                    </h3>
+                <div class="meta" style="text-transform: capitalize; font-size: 12px; letter-spacing: .1em; color: #4986fc; display: block; margin-bottom: 10px;">
+                <div>{{ parent.published }}</div>
+                <div>Updated: {{ parent.updated }}</div>
+                </div>
+                    <p>{{ parent.body }}</p>
+                    <p>
+                        {% if parent != reply %}
+                            {% if parent.comment_set.all %}<a href="{% url 'comment:replies' parent.id %}" style="margin-right:15px;">View replies</a>{% endif %}
+                        {% endif %}
+                        <a href="{% url 'comment:create' parent_id=parent.id parent='comment' %}?next={{ request.get_full_path }}" style="margin-right:7px;">Reply</a>
+                        <a href="{% url 'comment:delete' pk=parent.pk %}?next={{ request.get_full_path }}">Delete</a>
+                    </p>
+                </div>
+                {% endfor %}
+            </ul>
+
+            <ul class="comment-list">
+                {% for subreply in reply.comment_set.all %}
+                
+                <div class="comment" style="width: calc(100% - 80px); padding-left:20px;">
+                    <h3 style="font-size: 16px; font-weight: 600; text-transform: capitalize;">
+                    {% if not subreply.author %}
+                        Anonymous
+                    {% else %}
+                        {{ subreply.author }}
+                    {% endif %}
+                    </h3>
+                <div class="meta" style="text-transform: capitalize; font-size: 12px; letter-spacing: .1em; color: #4986fc; display: block; margin-bottom: 10px;">
+                    <div>{{ subreply.published }}</div>
+                    <div>Updated: {{ subreply.updated }}</div>
+                </div>
+                    <p>{{ subreply.body }}</p>
+                    <p>
+                        <a href="{% url 'comment:create' parent_id=subreply.id parent='comment' %}">Reply</a>
+                        {% if subreply.comment_set.all %}<a href="{% url 'comment:replies' subreply.id %}">View replies</a>{% endif %}
+                        <a href="{% url 'comment:delete' pk=subreply.pk %}">Delete</a><br>
+                    </p>
+                </div>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </section>
+{% endblock %}
+
+
 
 All replies<br>
 {% for subreply in reply.comment_set.all %}

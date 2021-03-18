@@ -1,25 +1,110 @@
-{{ post.title }}<br>
-{{ post.details }}<br>
-{{ post.updated }}<br>
+{% extends 'base.html' %}
+{% load static %}
 
-Tags:<br/>
-{% for tag in post.tags.all %}
-    <a href="{% url 'post:home' tag.slug %}">{{ tag.name }}</a>
-{% endfor %}
-<br>
-Similar posts:
-{% for post in similar_posts %}
-    <a href="{{ post.get_absolute_url}}">{{ post.title }}</a>
-{% empty %}
-    There is no similar post
-{% endfor %}<br>
-<br>
-<a href="{% url 'post:edit' pk=post.pk slug=post.slug %}">Edit post</a>
-<a href="{% url 'post:delete' pk=post.pk slug=post.slug %}">Delete post</a>
 
-<a href="{% url 'comment:create' parent_id=post.id parent='post' %}?next={{ request.get_full_path }}">Comment</a>
-{% for comment in post.comment_set.all %}<br>
-    {{ comment }} <a href="{% url 'comment:create' parent_id=comment.id parent='comment' %}">Reply</a>
-    {% if comment.comment_set.all %}<a href="{% url 'comment:replies' comment.id %}">View replies</a>{% endif %}
-    <a href="{% url 'comment:delete' pk=comment.pk %}?next={{ request.get_full_path }}">Delete</a>
-{% endfor %}
+{% block title %}
+  Vida | {{ post.title|truncatechars:15 }}
+{% endblock %}
+
+
+{% block content %}
+<section class="hero-wrap" style="height: 65px; background-image: url({% static 'images/background.jpg' %});">
+</section>
+
+<section class="ftco-section ftco-no-pt ftco-no-pb">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 ftco-animate py-md-5 mt-md-5">
+        <h2 class="mb-3">{{ post.title }}</h2>
+        <p style="margin:0px;">
+          <span style="margin-right:7px;"><span class="fa fa-calendar mr-2"></span>{{ post.published }}</span>
+          <span style="margin-right:7px; text-transform:capitalize;"><span class="fa fa-user mr-2"></span>{{ post.author }}</span>
+          <span style="margin-right:7px;"><span class="fa fa-comment mr-2"></span>{{ post.comment_set.count }}</span>
+        </p>
+        <div style="display:flex; justify-content:space-between;">
+          <span>Updated: {{ post.updated }}</span>
+          <span>
+            <a href="{% url 'post:edit' pk=post.pk slug=post.slug %}">Edit post</a>
+            <a href="{% url 'post:delete' pk=post.pk slug=post.slug %}">Delete post</a>
+          </span>
+        </div>
+        
+        <p style="margin-top:15px;">{{ post.detail }}</p>
+          
+        <div class="tag-widget post-tag-container mb-5 mt-5">
+          <div class="tagcloud">
+            {% for tag in post.tags.all %}
+              <a href="{% url 'post:home' tag.slug %}" style="padding:6px;" class="tag-cloud-link">{{ tag.name }}</a>
+            {% endfor %}
+          </div>
+        </div>
+
+         
+
+
+        
+        <div class="pt-5 mt-5">
+          <a href="{% url 'comment:create' parent_id=post.id parent='post' %}?next={{ request.get_full_path }}" style="box-shadow:0px 0px 6px black; margin-bottom:15px;" class="btn">Comment</a>
+          <h3 class="mb-5" style="font-size: 20px; font-weight: bold;">{{ post.comment_set.count }} comment{{ post.comment_set.count|pluralize }}</h3>
+
+          <ul class="comment-list">
+          {% for comment in post.comment_set.all %}
+            <li class="comment">
+              <div class="" style="width: calc(100% - 80px);">
+                <h3 style="font-size: 16px; font-weight: 600; text-transform: capitalize;">
+                  {% if not comment.author %}
+                    Anonymous
+                  {% else %}
+                    {{ comment.author }}
+                  {% endif %}
+                </h3>
+                <div class="meta" style="text-transform: capitalize; font-size: 12px; letter-spacing: .1em; color: #4986fc; display: block; margin-bottom: 10px;">
+                  <div>{{ comment.published }}</div>
+                  <div>Updated: {{ comment.updated }}</div>
+                </div>
+                <p>{{ comment.body }}</p>
+                <p>
+                  {% if comment.comment_set.all %}<a href="{% url 'comment:replies' comment.id %}" style="margin-right:15px;">View replies</a>{% endif %}
+                  <a href="{% url 'comment:create' parent_id=comment.id parent='comment' %}?next={{ request.get_full_path }}" style="margin-right:7px;">Reply</a>
+                  <a href="{% url 'comment:delete' pk=comment.pk %}?next={{ request.get_full_path }}">Delete</a>
+                </p>
+              </div>
+            </li>
+          {% endfor %}
+          </ul>
+
+        </div>
+          <!-- END comment-list -->
+      </div><!-- .col-md-8 -->
+
+    
+      <div class="col-lg-4 sidebar ftco-animate pl-md-4 py-md-5">
+        <div class="sidebar-box mt-md-5 bg-light">
+          <form action="#" class="search-form">
+            <div class="form-group">
+              <span class="icon fa fa-search"></span>
+              <input type="text" class="form-control" placeholder="Search...">
+            </div>
+          </form>
+        </div>
+          <h3>Similar posts</h3>
+        <div class="sidebar-box ftco-animate">
+          <div class="block-21 mb-4 d-flex"><div class="text">
+            {% for post in similar_posts %}
+              <div style="margin-bottom:30px;">
+                <h3 class="heading"><a href="{% url 'post:detail' pk=post.id slug=post.slug %}">{{ post.title }}</a></h3>
+                <p>{{ post.detail|truncatechars:55 }}</p>
+                <div class="meta">
+                  <div><span style="margin-right:5px;"><span class="fa fa-calendar"></span> {{ post.published }}</span></div>
+                  <div><span style="margin-right:5px; text-transform:capitalize;"><span class="fa fa-user"></span> {{ post.author }}</span></div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

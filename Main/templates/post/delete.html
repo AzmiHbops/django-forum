@@ -1,5 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
 DELETE?
 <form method="post">
     {% csrf_token %}
     <input type="submit" value="Delete">
 </form>
+
+{% endblock %}

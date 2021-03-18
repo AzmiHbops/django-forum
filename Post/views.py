@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from .models import Post
 from taggit.models import Tag
@@ -8,12 +9,15 @@ from django.db.models import Count
 
 #Home view - index.html
 def home(request, tag_slug=None):
-    posts = Post.objects.filter(status='published')
+    posts = Post.objects.filter(status='published')[:12]
+    
+    post_count = Post.objects.count()
+    user_count = User.objects.count()
     tag = None
     if  tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
-        posts = posts.filter(tags__in=[tag])
-    context = {"posts":posts, "tag":tag}
+        posts = Post.objects.filter(status="published", tags__in=[tag])
+    context = {"posts":posts, "tag":tag, "post_count":post_count, "user_count":user_count}
     return render(request, "post/index.html", context)
 
 
