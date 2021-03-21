@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from Post.models import Post
 from .models import Comment
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+@login_required
 def create(request, parent, parent_id):
     next = request.GET["next"]
     if request.method == 'POST':
@@ -40,7 +42,7 @@ def replies(request, pk):
 
 
 
-
+@login_required
 def delete(request, pk):
     comment = get_object_or_404(Comment, id=pk)
     next = request.GET["next"]
@@ -54,6 +56,7 @@ def delete(request, pk):
 
 
 #def edit
+@login_required
 def edit(request, pk):
     comment = get_object_or_404(Comment, id=pk)
     next = request.GET["next"]

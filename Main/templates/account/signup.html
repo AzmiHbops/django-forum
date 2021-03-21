@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  iShout | Join us Buddy!!
+{% endblock %}
+
+
+
+{% block content %}
+    <section class="hero-wrap" style="height: 65px; background-image: url({% static 'images/background.jpg' %});">
+    </section>
+    <section class="container" style="display:flex; justify-content:center;">
+        <div class="p-4 p-md stupid-auth-form" style="width:300px; margin-top:40px; box-shadow:0px 0px 3px black;">
+              <h3 class="mb-4">Join us!</h3>
+              <form method="post" class="signup-form">
+				 {% csrf_token %}
+                 <div class="form-group">
+                    {% if form.username.errors %}
+                        <p style="color:red; font-size:14px;">Username already in use</p>
+                    {% endif %}
+                    <div>{{ form.username }}</div>
+                </div>
+                <div class="form-group">
+                    <div>{{ form.email }}</div>
+                </div>
+                <div class="form-group">
+                    {% if form.password1.errors %}
+                        <p style="color:red; font-size:14px;">Please make use of a strong password and make sure they match</p>
+                    {% endif %}
+                    {{ form.password1.errors }}
+                    <div>{{ form.password1 }}</div>
+                </div>
+                <div class="form-group">
+                    <div>{{ form.password2 }}</div>
+                </div>
+             <div class="form-group d-flex justify-content-end mt-4" style="padding-right: 0px;">
+                 <button type="submit" class="btn btn-primary submit"><span class="fa fa-paper-plane"></span></button>
+             </div>
+            </form>
+            <p class="text-center">Already have an account? <a href="{% url 'account_login' %}">Sign In</a></p>
+        </div>
+    </section>
+{% endblock %}

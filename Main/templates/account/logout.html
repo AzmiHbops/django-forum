@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  iShout | Don't leave yet (:
+{% endblock %}
+
+
+
+{% block content %}
+    <section class="hero-wrap" style="height: 65px; background-image: url({% static 'images/background.jpg' %});">
+    </section>
+    <section>
+    <section class="container" style="display:flex; justify-content:center;">
+        <div class="p-4 p-md-5" style="margin-top:40px;">
+        <h3>Sign Out</h3>
+        <p  style="margin-bottom:10px;">We are sad to watch you leave (: Do you really want to go?</p>
+        <form method="post">
+			{% csrf_token %}
+                <button type="submit" class="btn submit"  style="box-shadow:0px 0px 3px black;">Sign out</button>
+        </form>
+     </div>
+    </section>
+{% endblock %}

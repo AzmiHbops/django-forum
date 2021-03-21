@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  iShout | {{ user.username }} - Profile
+{% endblock %}
+
+
+
+{% block content %}
+    <section class="hero-wrap" style="height: 65px; background-image: url({% static 'images/background.jpg' %});">
+    </section>
+    <section>
+    <div class="container">
+      <div style="margin: 30px 0px 0px 30px;">
+        Hello {{ user.username }}! 
+        <h3 style="font-weight:bold; text-align:center;">Shouts!</h3>
+      </div>
+      <div class="row d-flex">
+            {% if shouts %}
+                {% for post in shouts %}
+                <div class="col-lg-4 ftco-animate">
+                    <div class="blog-entry">
+                        <div class="text d-block">
+                            <div class="meta">
+                                <p>
+                                    <span style="margin-right:2px;"><span class="fa fa-calendar mr-2"></span>{{ post.published }}</span>
+                                    <span style="margin-right:2px;"><span class="fa fa-user mr-2"></span>{{ post.author }}</span>
+                                    <span style="margin-right:2px;"><span class="fa fa-comment mr-2"></span>{{ post.comment_set.count }}</span>
+                                </p>
+                            </div>
+                            <h3 class="heading"><a href="{% url 'post:detail' pk=post.id slug=post.slug %}">{{ post.title }}</a></h3>
+                            <p>{{ post.detail|truncatechars:55 }}</p>
+                            <p><a href="{% url 'post:detail' pk=post.id slug=post.slug %}" class="btn btn-secondary py-2 px-3">Read more</a></p>
+                        </div>
+                    </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                Your shouts would be shown here! You should  <a href="{% url 'post:create' %}" class="btn" style="border-radius:0px; color:white; background:#ddd; padding:1px 4px;">Shout out</a> now
+            {% endif %}
+        </div>
+    <div>
+      <div>
+        <h3 style="font-weight:bold; text-align:center;">Drafts!</h3>
+      </div>
+            {% if drafts %}
+                {% for post in drafts %}
+                <div class="col-lg-4 ftco-animate">
+                    <div class="blog-entry">
+                        <div class="text d-block">
+                            <div class="meta">
+                                <p>
+                                    <span style="margin-right:2px;"><span class="fa fa-calendar mr-2"></span>{{ post.published }}</span>
+                                    <span style="margin-right:2px;"><span class="fa fa-user mr-2"></span>{{ post.author }}</span>
+                                    <span style="margin-right:2px;"><span class="fa fa-comment mr-2"></span>{{ post.comment_set.count }}</span>
+                                </p>
+                            </div>
+                            <h3 class="heading"><a href="{% url 'post:detail' pk=post.id slug=post.slug %}">{{ post.title }}</a></h3>
+                            <p>{{ post.detail|truncatechars:55 }}</p>
+                            <p><a href="{% url 'post:detail' pk=post.id slug=post.slug %}" class="btn btn-secondary py-2 px-3">Read more</a></p>
+                        </div>
+                    </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                Your drafts would be saved here!
+            {% endif %}
+          </div>
+  </div>
+    </section>
+{% endblock %}

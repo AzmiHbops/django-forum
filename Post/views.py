@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from .models import Post
 from taggit.models import Tag
 from django.db.models import Count
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -32,6 +33,7 @@ def detail(request, pk, slug):
 
 
 #Create new blog-post
+@login_required
 def create(request):
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -46,6 +48,7 @@ def create(request):
 
     
 #Edit blog-post
+@login_required
 def edit(request, pk, slug):
     post = get_object_or_404(Post, id=pk, slug=slug)
     context = {'post':post}
@@ -64,7 +67,7 @@ def edit(request, pk, slug):
     return render(request, "post/edit.html", context)
 
 
-#Delete blog-post (Admins only)
+@login_required
 def delete(request, pk, slug):
     post = get_object_or_404(Post, id=pk, slug=slug)
     context = {'post':post}
@@ -74,3 +77,11 @@ def delete(request, pk, slug):
         
     return render(request, "post/delete.html", context)
 
+
+@login_required
+def profile(request):
+    drafts = request.user.posts.filter(status="draft")
+    shouts = request.user.posts.filter(status="published")
+    context = {"drafts":drafts, "shouts":shouts}
+
+    return render(request, "post/profile.html", context)

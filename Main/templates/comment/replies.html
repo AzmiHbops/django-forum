@@ -34,8 +34,10 @@
                             {% if parent.comment_set.all %}<a href="{% url 'comment:replies' parent.id %}" style="margin-right:15px;">View replies</a>{% endif %}
                         {% endif %}
                         <a href="{% url 'comment:create' parent_id=parent.id parent='comment' %}?next={{ request.get_full_path }}" style="margin-right:7px;">Reply</a>
-                        <a href="{% url 'comment:edit' pk=parent.pk %}?next={{ request.get_full_path }}" style="margin-right:7px;">Edit</a>
-                        <a href="{% url 'comment:delete' pk=parent.pk %}?next={{ request.get_full_path }}">Delete</a>
+                        {% if parent.author == request.user %}
+                            <a href="{% url 'comment:edit' pk=parent.pk %}?next={{ request.get_full_path }}" style="margin-right:7px;">Edit</a>
+                            <a href="{% url 'comment:delete' pk=parent.pk %}?next={{ request.get_full_path }}">Delete</a>
+                        {% endif %}
                     </p>
                 </div>
                 {% endfor %}
@@ -60,8 +62,10 @@
                     <p>
                         {% if subreply.comment_set.all %}{{ subreply.comment_set.count }} repl{{ subreply.comment_set.count|pluralize:"y,ies" }} <a style="margin-right:15px;" href="{% url 'comment:replies' subreply.id %}">View replies</a>{% endif %}
                         <a href="{% url 'comment:create' parent_id=subreply.id parent='comment' %}?next={{ request.get_full_path }}">Reply</a>
-                        <a href="{% url 'comment:edit' pk=subreply.pk %}?next={{ request.get_full_path }}" style="margin-right:7px;">Edit</a>
-                        <a href="{% url 'comment:delete' pk=subreply.pk %}">Delete</a><br>
+                        {% if subreply.author == request.user %}
+                            <a href="{% url 'comment:edit' pk=subreply.pk %}?next={{ request.get_full_path }}" style="margin-right:7px;">Edit</a>
+                            <a href="{% url 'comment:delete' pk=subreply.pk %}?next={{ request.get_full_path }}">Delete</a><br>
+                        {% endif %}
                     </p>
                 </div>
                 {% endfor %}

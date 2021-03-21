@@ -24,6 +24,16 @@
     
     <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+    <style>
+      
+      @media (min-width: 460px) {
+        .stupid-auth-form{
+          max-width: 258px;
+        }
+      }
+    </style>
 </head>
 <body>
  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -36,8 +46,13 @@
    <div class="collapse navbar-collapse" id="ftco-nav">
        <ul class="navbar-nav ml-auto">
          <li class="nav-item"><a href="{% url 'post:home' %}" class="nav-link">Home</a></li>
-         <li class="nav-item"><a href="contact.html" class="nav-link">Sign in</a></li>
-         <li class="nav-item"><a href="contact.html" class="nav-link">Sign up</a></li>
+         {% if not user.is_authenticated %}
+            <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link">Sign in</a></li>
+            <li class="nav-item"><a href="{% url 'account_signup' %}" class="nav-link">Sign up</a></li>
+         {% else %}
+            <li class="nav-item"><a href="{% url 'post:profile' %}" class="nav-link">Profile</a></li>
+            <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link">Log out</a></li>
+         {% endif %}
          <li class="nav-item"><a href="{% url 'post:create' %}" style="color:#4986fc; font-weight:bold;" class="nav-link">Shout out!</a></li>
      </ul>
  </div>
