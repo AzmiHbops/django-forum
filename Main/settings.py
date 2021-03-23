@@ -147,3 +147,11 @@ STATICFILES_DIRS = [
 LOGIN_URL = reverse_lazy('account_login')
 LOGIN_REDIRECT_URL = reverse_lazy('post:home')
 LOGOUT_URL = reverse_lazy('post:home')
+
+
+
+
+
+
+STRIPE_PUBLISHABLE_KEY  = "pk_test_51IY02zBJwE3OsJLRCDxRkqN8iyqZsu3SZlbzBjMtcOC0DLE0kXvFZbEFc1pcLe6DoWiN3YrOXHQmW7bjblAJlgzY00UZDTFZzY"
+STRIPE_SECRET_KEY = "sk_test_51IY02zBJwE3OsJLR6sxzVrycrpIbltGac09xqea2hoVV4ShT5cqUJYLwykMU0NGGwRScwVRHDqrGxyDOpDNyiB1W00hGpV3vko"

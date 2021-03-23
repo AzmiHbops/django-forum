@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-  iShout | Don't leave yet (:
+  iShout | Ready to rumble? :)
 {% endblock %}
 
 
@@ -13,11 +13,51 @@
     <section>
     <section class="container" style="display:flex; justify-content:center;">
         <div class="p-4 p-md-5" style="margin-top:40px;">
-        <h3></h3>
-        <p  style="margin-bottom:10px;">We are sad to watch you leave (: Do you really want to go?</p>
+        <h3>Viola! You're all in</h3>
+        <p  style="margin-bottom:10px;">We have reviewed your ad and it does not go against our policy,
+        you should kick-start your popularity by buying an ad space</p>
         <form method="post">
-			{% csrf_token %}
-                <button type="submit" class="btn submit"  style="box-shadow:0px 0px 3px black;">Sign out</button>
+			    {% csrf_token %}
+          <script src="https://www.paypal.com/sdk/js?client-id=AePhuBYR_SPb5IEGjJU_zbXvg3e968KzpOiN428IrHMrV4fj5R4ploEjKYhnacpulC_M7mhkkCFa_lAF&currency=USD"> // Required. Replace YOUR_CLIENT_ID with your sandbox client ID.
+          </script>
+          <div id="paypal-button-container"></div>
+          <script>
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '10'
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Show a success message to the buyer
+                    window.location = "{% url 'advert:checked_out' %}";
+                });
+            }
+        }).render('#paypal-button-container');
+    </script>
+        </form>
+
+
+        <form method="post" action="{% url 'advert:checked_out' %}">
+          {% csrf_token %}
+          <h3>Pay via Stripe</h3>
+          <script src="https://checkout.stripe.com/checkout.js"
+            class="stripe-button"
+            data-key="{{ key }}"
+            data-description="Confirm payment"
+            data-amount="1000"
+            data-locale="auto">
+          </script>
         </form>
      </div>
     </section>

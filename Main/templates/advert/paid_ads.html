@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  iShout | Now give us the gist
+{% endblock %}
+
+
+
+{% block content %}
+    <section class="hero-wrap" style="height: 65px; background-image: url({% static 'images/background.jpg' %});">
+    </section>
+    <section>
+    <section class="container" style="display:flex; justify-content:center;">
+
+        <div class="comment-form-wrap pt-5">
+            <h3 class="mb-5" style="font-size: 20px; font-weight: bold;">You have successfully bought your ad space. Now drop it the exact way you want</h3>
+            <form class="p-5 bg-light" method="post" action="{% url 'advert:ad_checkout' %}">
+                {% csrf_token %}
+              <div class="form-group">
+                <label for="type">Title *</label>
+                <input name="type" id="type" required class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="type1">Some more intro (optional)</label>
+                <input name="type1" id="type1" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="type2">Some beautiful images (optional)</label>
+                <input name="type2" id="type2" type="file" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="description">Description (The body of your advert) *</label>
+                <textarea name="description" id="description" required rows="5" max=5 class="form-control"></textarea>
+              </div>
+              <div class="form-group">
+                <input type="submit" value="Submit" class="btn py-3 px-4 btn-primary">
+              </div>
+
+            </form>
+          </div>
+    </section>
+{% endblock %}
