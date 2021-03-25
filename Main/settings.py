@@ -27,7 +27,7 @@ SECRET_KEY = 'r4w^5vi8tq^wmow%&y%$qat$iuk0l)km5z_(o_0apryre&zjuy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'ishout.herokuapp.com']
 
 
 # Application definition
@@ -64,6 +64,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'Main.urls'
@@ -142,6 +144,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'Main', 'static')
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 
 LOGIN_URL = reverse_lazy('account_login')
